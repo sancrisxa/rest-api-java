@@ -2,6 +2,8 @@ package com.schoolofnet.RestApi.resources;
 
 import com.schoolofnet.RestApi.models.Product;
 import com.schoolofnet.RestApi.services.ProductService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Api(value = "Api Rest - Model Product")
 @RestController
 @RequestMapping("/products")
 public class ProductResource {
@@ -34,7 +37,8 @@ public class ProductResource {
         this.productService = productService;
     }
 
-    @GetMapping
+    @ApiOperation(value = "Find all products in database")
+    @GetMapping(produces = "application/json")
     @ResponseBody
     public ResponseEntity<?> findAll() {
 
@@ -42,6 +46,7 @@ public class ProductResource {
         return new ResponseEntity<List>(list, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Find by id in databse")
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<?> find(@PathVariable(value = "id") Long id) {
@@ -50,6 +55,7 @@ public class ProductResource {
         return new ResponseEntity<Optional>(product, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Create a new product")
     @PostMapping
     @ResponseBody
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -69,6 +75,7 @@ public class ProductResource {
                 );
     }
 
+    @ApiOperation(value = "Update a product by id")
     @PutMapping(value = "/{id}")
     @ResponseBody
     @ResponseStatus(code = HttpStatus.ACCEPTED)
@@ -88,6 +95,7 @@ public class ProductResource {
                 );
     }
 
+    @ApiOperation(value = "Delete product by id")
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "id") Long id, HttpServletResponse response) {
