@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -72,5 +73,12 @@ public class Product {
     @Override
     public String toString() {
         return "{ id: " + this.id + " ,name: " + this.name + ", qtd: " + ", dateCreated: " + this.dateCreated + "}";
+    }
+
+    @PrePersist
+    public void onPrePersist() {
+        if (this.dateCreated == null) {
+            this.dateCreated = new Date();
+        }
     }
 }
